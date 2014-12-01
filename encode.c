@@ -62,7 +62,7 @@ bool encode_init(COMPONENT_T **video_encode)
 				ILCLIENT_ENABLE_OUTPUT_BUFFERS);
 	if (omx_return != 0)
 	{
-		printf("ilclient_create_component() for video_encode failed with %x!\n", omx_return);
+		fprintf(stderr, "ilclient_create_component() for video_encode failed with %x!\n", omx_return);
 		return false;
 	}
 
@@ -76,7 +76,7 @@ bool encode_init(COMPONENT_T **video_encode)
 
 	if (OMX_GetParameter(ILC_GET_HANDLE(*video_encode), OMX_IndexParamPortDefinition, &def) != OMX_ErrorNone)
 	{
-		printf("%s:%d: OMX_GetParameter() for video_encode port 200 failed!\n", __FUNCTION__, __LINE__);
+		fprintf(stderr, "%s:%d: OMX_GetParameter() for video_encode port 200 failed!\n", __FUNCTION__, __LINE__);
 		return false;
 	}
 
@@ -102,7 +102,7 @@ bool encode_config_format(COMPONENT_T* handle, int32_t width, int32_t height, in
 	omx_return = OMX_SetParameter(ILC_GET_HANDLE(handle), OMX_IndexParamPortDefinition, &def);
 	if (omx_return != OMX_ErrorNone)
 	{
-		printf("%s:%d: OMX_SetParameter() for video_encode port 200 failed with %x!\n", __FUNCTION__, __LINE__, omx_return);
+		fprintf(stderr, "%s:%d: OMX_SetParameter() for video_encode port 200 failed with %x!\n", __FUNCTION__, __LINE__, omx_return);
 		return false;
 	}
 }
@@ -118,11 +118,11 @@ bool encode_config_encoding(COMPONENT_T* handle, int32_t codec)
 	format.nPortIndex = 201;
 	format.eCompressionFormat = OMX_VIDEO_CodingAVC;
 
-	printf("OMX_SetParameter for video_encode:201...\n");
+	fprintf(stderr, "OMX_SetParameter for video_encode:201...\n");
 	omx_return = OMX_SetParameter(ILC_GET_HANDLE(handle), OMX_IndexParamVideoPortFormat, &format);
 	if (omx_return != OMX_ErrorNone)
 	{
-		printf("%s:%d: OMX_SetParameter() for video_encode port 201 failed with %x!\n", __FUNCTION__, __LINE__, omx_return);
+		fprintf(stderr, "%s:%d: OMX_SetParameter() for video_encode port 201 failed with %x!\n", __FUNCTION__, __LINE__, omx_return);
 		return false;
 	}
 
@@ -145,7 +145,7 @@ bool encode_config_bitrate(COMPONENT_T* handle, uint32_t bitrate)
 	omx_return = OMX_SetParameter(ILC_GET_HANDLE(handle), OMX_IndexParamVideoBitrate, &bitrateType);
 	if (omx_return != OMX_ErrorNone)
 	{
-		printf("%s:%d: OMX_SetParameter() for bitrate for video_encode port 201 failed with %x!\n", __FUNCTION__, __LINE__, omx_return);
+		fprintf(stderr, "%s:%d: OMX_SetParameter() for bitrate for video_encode port 201 failed with %x!\n", __FUNCTION__, __LINE__, omx_return);
 		return false;
 	}
    
@@ -240,7 +240,7 @@ bool encode_config_activate(COMPONENT_T* handle)
 
 void encode_deinit(COMPONENT_T* handle)
 {
-   printf("disabling port buffers for 200 and 201...\n");
+   fprintf(stderr, "disabling port buffers for 200 and 201...\n");
    ilclient_disable_port_buffers(handle, 200, NULL, NULL, NULL);
    ilclient_disable_port_buffers(handle, 201, NULL, NULL, NULL);
 

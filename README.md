@@ -10,8 +10,18 @@ Usage:
 Record to file: ./telepi <filename.h264>
 Output to stdout: ./telepi <filename.h264>
 
-Stream to a remote computer:
+## Stream to a remote computer using netcat ##
+
+On the Raspberry Pi:
 ./telepi - | netcat <remote_ip> 5001
 
 View on Windows:
 ncat.exe -l -p 5001 | mplayer.exe -fps 31 -cache 512 -
+
+## Stream as a HTTP server ##
+
+On the Raspberry Pi:
+./telepi - | cvlc -vvv stream:///dev/stdin --sout '#standard{access=http,mux=ts,dst=:8090}' :demux=h264
+
+View with VLC:
+vlc http://raspberrypi.lan:8089/
